@@ -13,12 +13,7 @@ from collections import defaultdict
 #Get player names
 player_names = ["Annie","*Ben","*Carla"]
 
-#number of curses and victory cards
-if len(player_names)>2:
-    nV=12
-else:
-    nV=8
-nC = -10 + 10 * len(player_names)
+(nV, nC) = testUtility.get_n_cards(player_names)
 
 box = testUtility.get_boxes(nV)
 

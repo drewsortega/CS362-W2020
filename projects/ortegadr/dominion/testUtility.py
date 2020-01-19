@@ -1,4 +1,13 @@
-get_boxes(nV):
+def get_n_cards(player_names):
+    #number of curses and victory cards
+    if len(player_names)>2:
+        nV=12
+    else:
+        nV=8
+    nC = -10 + 10 * len(player_names)
+    return (nV, nC)
+
+def get_boxes(nV):
     #define box
     box = {}
     box["Woodcutter"]=[Dominion.Woodcutter()]*10
@@ -29,7 +38,7 @@ get_boxes(nV):
 
     return box
 
-get_supply_order():
+def get_supply_order():
     supply_order = {0:['Curse','Copper'],
                     2:['Estate','Cellar','Chapel','Moat'],
                     3:['Silver','Chancellor','Village','Woodcutter','Workshop'],
