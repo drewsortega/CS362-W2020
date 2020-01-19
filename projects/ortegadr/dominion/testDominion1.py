@@ -20,10 +20,7 @@ box = testUtility.get_boxes(nV)
 supply_order = testUtility.get_supply_order()
 
 #Pick 10 cards from box to be in the supply.
-boxlist = [k for k in box]
-random.shuffle(boxlist)
-random10 = boxlist[:10]
-supply = defaultdict(list,[(k,box[k]) for k in random10])
+supply = testUtility.pick_supply(box)
 
 
 #The supply always has these cards

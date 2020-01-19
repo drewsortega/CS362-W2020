@@ -49,3 +49,12 @@ def get_supply_order():
                     6:['Gold','Adventurer'],
                     8:['Province']}
     return supply_order
+
+def pick_supply(box):
+    #Pick 10 cards from box to be in the supply.
+    boxlist = [k for k in box]
+    random.shuffle(boxlist)
+    random10 = boxlist[:10]
+    supply = defaultdict(list,[(k,box[k]) for k in random10])
+
+    return supply
