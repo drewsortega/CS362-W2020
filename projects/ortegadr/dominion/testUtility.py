@@ -2,6 +2,7 @@ import Dominion
 import random
 from collections import defaultdict
 
+# calculates number of cards based on the number of players
 def get_n_cards(player_names):
     #number of curses and victory cards
     if len(player_names)>2:
@@ -11,6 +12,7 @@ def get_n_cards(player_names):
     nC = -10 + 10 * len(player_names)
     return (nV, nC)
 
+# gets the set of all cards
 def get_boxes(nV):
     #define box
     box = {}
@@ -42,6 +44,7 @@ def get_boxes(nV):
 
     return box
 
+# defines the order of prices
 def get_supply_order():
     supply_order = {0:['Curse','Copper'],
                     2:['Estate','Cellar','Chapel','Moat'],
@@ -54,6 +57,7 @@ def get_supply_order():
                     8:['Province']}
     return supply_order
 
+# picks from the cards to be in the list
 def pick_supply(box):
     #Pick 10 cards from box to be in the supply.
     boxlist = [k for k in box]
@@ -63,6 +67,7 @@ def pick_supply(box):
 
     return supply
 
+# adds cards that must be used in every game
 def add_base_cards(supply, player_names, nV, nC):
     #The supply always has these cards
     supply["Copper"]=[Dominion.Copper()]*(60-len(player_names)*7)
@@ -73,6 +78,7 @@ def add_base_cards(supply, player_names, nV, nC):
     supply["Province"]=[Dominion.Province()]*nV
     supply["Curse"]=[Dominion.Curse()]*nC
 
+# initilizes player hands
 def init_players(player_names):
     #Costruct the Player objects
     players = []
