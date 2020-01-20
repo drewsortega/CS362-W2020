@@ -1,3 +1,7 @@
+import Dominion
+import random
+from collections import defaultdict
+
 def get_n_cards(player_names):
     #number of curses and victory cards
     if len(player_names)>2:
@@ -58,3 +62,26 @@ def pick_supply(box):
     supply = defaultdict(list,[(k,box[k]) for k in random10])
 
     return supply
+
+def add_base_cards(supply, player_names, nV, nC):
+    #The supply always has these cards
+    supply["Copper"]=[Dominion.Copper()]*(60-len(player_names)*7)
+    supply["Silver"]=[Dominion.Silver()]*40
+    supply["Gold"]=[Dominion.Gold()]*30
+    supply["Estate"]=[Dominion.Estate()]*nV
+    supply["Duchy"]=[Dominion.Duchy()]*nV
+    supply["Province"]=[Dominion.Province()]*nV
+    supply["Curse"]=[Dominion.Curse()]*nC
+
+def init_players(player_names):
+    #Costruct the Player objects
+    players = []
+    for name in player_names:
+        if name[0]=="*":
+            players.append(Dominion.ComputerPlayer(name[1:]))
+        elif name[0]=="^":
+            players.append(Dominion.TablePlayer(name[1:]))
+        else:
+            players.append(Dominion.Player(name))
+
+    return players

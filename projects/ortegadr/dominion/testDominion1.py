@@ -17,33 +17,21 @@ player_names = ["Annie","*Ben","*Carla"]
 
 box = testUtility.get_boxes(nV)
 
+# generate supply order
 supply_order = testUtility.get_supply_order()
 
 #Pick 10 cards from box to be in the supply.
 supply = testUtility.pick_supply(box)
 
-
-#The supply always has these cards
-supply["Copper"]=[Dominion.Copper()]*(60-len(player_names)*7)
-supply["Silver"]=[Dominion.Silver()]*40
-supply["Gold"]=[Dominion.Gold()]*30
-supply["Estate"]=[Dominion.Estate()]*nV
-supply["Duchy"]=[Dominion.Duchy()]*nV
-supply["Province"]=[Dominion.Province()]*nV
-supply["Curse"]=[Dominion.Curse()]*nC
+# since supply is a list -> therefore a reference, does not
+# need to return anything!
+testUtility.add_base_cards(supply, player_names, nV, nC)
 
 #initialize the trash
 trash = []
 
-#Costruct the Player objects
-players = []
-for name in player_names:
-    if name[0]=="*":
-        players.append(Dominion.ComputerPlayer(name[1:]))
-    elif name[0]=="^":
-        players.append(Dominion.TablePlayer(name[1:]))
-    else:
-        players.append(Dominion.Player(name))
+# initialize players and hands
+players = testUtility.init_players(player_names)
 
 #Play the game
 turn  = 0
