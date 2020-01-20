@@ -15,10 +15,11 @@ player_names = ["Aryn","*Bob","*Courtney"]
 
 # ignore the correct way to get the number of 
 # curse and victory cards
-#(nV, nC) = testUtility.get_n_cards(player_names)
-# set the number of curse and victory cards manually:
+(nV, nC) = testUtility.get_n_cards(player_names)
+
+# however, to introduce a bug, I override the number
+# of victory cards in play to 1.
 nV = 1
-nC = 400
 
 
 box = testUtility.get_boxes(nV)

@@ -11,7 +11,7 @@ import testUtility
 from collections import defaultdict
 
 #Get player names
-player_names = ["Drew","*Jacob","*Patrick"]
+player_names = ["Drew","Jacob"]
 
 (nV, nC) = testUtility.get_n_cards(player_names)
 
@@ -25,7 +25,15 @@ supply = testUtility.pick_supply(box, [])
 
 # since supply is a list -> therefore a reference, does not
 # need to return anything!
-testUtility.add_base_cards(supply, player_names, nV, nC)
+
+# this is where the bug is located in this test scenario -
+# we "accidentally" pass in box instead of supply to the 
+# function. The game doesn't crash, but it immediately ends.
+# this is because we don't add any of these required cards
+# into the actual supply, and then there is zero victory cards
+# in at least one of the piles by the game rules (really zero
+# in all of them), so it immediately ends. But it does not crash.
+testUtility.add_base_cards(box, player_names, nV, nC)
 
 #initialize the trash
 trash = []
