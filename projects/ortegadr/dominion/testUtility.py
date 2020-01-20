@@ -66,7 +66,9 @@ def get_supply_order():
 def pick_supply(box, override):
     boxlist = [k for k in box]
     if override:
-        supply = defaultdict(list,[(k,box[k]) for c in override])
+        supply = defaultdict(list,[(c,box[c]) for c in override])
+
+        return supply
     else:
         #Pick 10 cards from box to be in the supply.
         random.shuffle(boxlist)
