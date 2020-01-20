@@ -4,7 +4,12 @@ from collections import defaultdict
 
 # calculates number of cards based on the number of players
 def get_n_cards(player_names):
+
     #number of curses and victory cards
+
+    # nV = number of victory cards
+    # nC = number of curse cards
+
     if len(player_names)>2:
         nV=12
     else:
@@ -58,14 +63,17 @@ def get_supply_order():
     return supply_order
 
 # picks from the cards to be in the list
-def pick_supply(box):
-    #Pick 10 cards from box to be in the supply.
+def pick_supply(box, override):
     boxlist = [k for k in box]
-    random.shuffle(boxlist)
-    random10 = boxlist[:10]
-    supply = defaultdict(list,[(k,box[k]) for k in random10])
+    if override:
+        supply = defaultdict(list,[(k,box[k]) for c in override])
+    else:
+        #Pick 10 cards from box to be in the supply.
+        random.shuffle(boxlist)
+        random10 = boxlist[:10]
+        supply = defaultdict(list,[(k,box[k]) for k in random10])
 
-    return supply
+        return supply
 
 # adds cards that must be used in every game
 def add_base_cards(supply, player_names, nV, nC):

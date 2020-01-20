@@ -21,7 +21,7 @@ box = testUtility.get_boxes(nV)
 supply_order = testUtility.get_supply_order()
 
 #Pick 10 cards from box to be in the supply.
-supply = testUtility.pick_supply(box)
+supply = testUtility.pick_supply(box, None)
 
 # since supply is a list -> therefore a reference, does not
 # need to return anything!
