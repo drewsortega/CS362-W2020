@@ -11,7 +11,7 @@ import testUtility
 from collections import defaultdict
 
 #Get player names
-player_names = ["Annie","*Ben","*Carla"]
+player_names = ["Drew","*Jacob","*Patrick"]
 
 (nV, nC) = testUtility.get_n_cards(player_names)
 

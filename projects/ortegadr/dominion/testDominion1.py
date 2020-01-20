@@ -11,7 +11,7 @@ import testUtility
 from collections import defaultdict
 
 #Get player names
-player_names = ["Annie","*Ben","*Carla"]
+player_names = ["Aryn","*Bob","*Courtney"]
 
 # ignore the correct way to get the number of 
 # curse and victory cards
