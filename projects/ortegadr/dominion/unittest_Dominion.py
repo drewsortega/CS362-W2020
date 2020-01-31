@@ -6,36 +6,35 @@ import testUtility
 class TestAction_card(TestCase):
     def setUp(self):
         # Get player names
-        player_names = ["Aryn", *"Bob", "*Courtney"]
+        self.player_names = ["Aryn", *"Bob", "*Courtney"]
 
         # ignore the correct way to get the number of
         # curse and victory cards
-        (nV, nC) = testUtility.get_n_cards(player_names)
+        (self.nV, self.nC) = testUtility.get_n_cards(self.player_names)
 
-        # however, to introduce a bug, I override the number
-        # of victory cards in play to 1.
-        nV = 1
-
-        box = testUtility.get_boxes(nV)
+        self.box = testUtility.get_boxes(self.nV)
 
         # generate supply order
-        supply_order = testUtility.get_supply_order()
+        self.supply_order = testUtility.get_supply_order()
 
         # Pick 10 cards from box to be in the supply.
-        supply = testUtility.pick_supply(box, [])
+        self.supply = testUtility.pick_supply(self.box, [])
 
         # since supply is a list -> therefore a reference, does not
         # need to return anything!
-        testUtility.add_base_cards(supply, player_names, nV, nC)
+        testUtility.add_base_cards(
+            self.supply, self.player_names, self.nV, self.nC)
 
         # initialize the trash
-        trash = []
+        self.trash = []
 
         # initialize players and hands
-        players = testUtility.init_players(player_names)
+        self.players = testUtility.init_players(self.player_names)
 
     def test_init(self):
         self.setUp()
+
+        # manually create the Laboratory class
         name = "Laboratory"
         cost = 5
         actions = 1
@@ -46,6 +45,7 @@ class TestAction_card(TestCase):
             name, cost, actions, cards, buys, coins)
         lab_card = Dominion.Laboratory()
 
+        # verify that a locally initialized card is the same as a generated one
         self.assertEqual(manual_card.name, lab_card.name)
         self.assertEqual(manual_card.category, lab_card.category)
         self.assertEqual(manual_card.cost, lab_card.cost)
@@ -57,7 +57,17 @@ class TestAction_card(TestCase):
         self.assertEqual(manual_card.coins, lab_card.coins)
 
     def test_use(self):
-        self.fail()
+        self.setUp()
+        # generate an Action Card that could be played
+        lab_card = Dominion.Laboratory()
+        # get the first player from the list
+        player = self.players[0]
+        # add our lab card to their hand
+        player.hand.append(lab_card)
+        # use the lab card in the players hand
+        lab_card.use(player, self.trash)
+        # check to see if the lab card is now in their played hands, at the end of the list
+        self.assertEqual(lab_card, player.played[-1])
 
     def test_augment(self):
         self.fail()
