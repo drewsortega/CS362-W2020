@@ -70,7 +70,43 @@ class TestAction_card(TestCase):
         self.assertEqual(lab_card, player.played[-1])
 
     def test_augment(self):
-        self.fail()
+        self.setUp()
+
+        # use the first player
+        player = self.players[0]
+
+        # init player turn as if taking a turn
+        player.actions = 1
+        player.buys = 1
+        player.purse = 0
+
+        # store the old values
+        old_actions = player.actions
+        old_buys = player.buys
+        old_purse = player.purse
+        old_n_cards = len(player.hand)
+
+        # the number everything should be incremented by
+        inc_amount = 4
+
+        # create a fake card that will augment everything by inc_amount
+        card = Dominion.Action_card("fake_card", 1, inc_amount,
+                                    inc_amount, inc_amount, inc_amount)
+
+        # run augment
+        card.augment(player)
+
+        # check to see if actions correctly incremented
+        self.assertEqual(player.actions, old_actions+inc_amount)
+
+        # check to see if buys correctly incremented
+        self.assertEqual(player.buys, old_buys+inc_amount)
+
+        # check to see if the player purse is correctly incremented
+        self.assertEqual(player.purse, old_purse+inc_amount)
+
+        # check to see if the player drew the correct number of cards
+        self.assertEqual(len(player.hand)-old_n_cards, inc_amount)
 
 
 class TestPlayer(TestCase):
