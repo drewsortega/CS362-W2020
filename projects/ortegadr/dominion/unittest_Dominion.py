@@ -221,7 +221,31 @@ class TestPlayer(TestCase):
     def test_cardsummary(self):
         # set up
         self.setUp()
-        self.fail()
+
+        # just use the first player
+        player = self.players[0]
+
+
+        summary = player.cardsummary()
+
+        self.assertEqual(summary["Estate"], 3)
+        self.assertEqual(summary["Copper"],7)
+        self.assertEqual(summary["VICTORY POINTS"], 3)
+        self.assertNotIn("Duchy", summary)
+
+        # add an extra estate
+        player.hand.append(Dominion.Estate())
+
+        # also add a Duchy
+        player.hand.append(Dominion.Duchy())
+
+        summary = player.cardsummary()
+
+        # should have more victory points
+        self.assertEqual(summary["Estate"], 4)
+        self.assertEqual(summary["Copper"],7)
+        self.assertEqual(summary["Duchy"],1)
+        self.assertEqual(summary["VICTORY POINTS"], 7)
 
 
 class TestGame(TestCase):
