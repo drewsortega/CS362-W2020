@@ -142,6 +142,8 @@ class TestPlayer(TestCase):
         self.setUp()
         player = self.players[0]
         print(len(player.stack()))
+        # since there are no possible action cards, the total should be zero
+        self.assertEqual(0, player.action_balance())
         # remove two cards from the hand
         player.hand = player.hand[2:]
 
@@ -155,7 +157,32 @@ class TestPlayer(TestCase):
     def test_calcpoints(self):
         # set up
         self.setUp()
-        self.fail()
+
+        # get the first player
+        player = self.players[0]
+
+        # we start with 3 estate cards.
+        self.assertEqual(player.calcpoints(), 3)
+
+        # add an estate with 1 vic points
+        player.hand.append(Dominion.Estate())
+        
+        self.assertEqual(player.calcpoints(), 4)
+
+        # add a Duchy with 3 vic points
+        player.hand.append(Dominion.Duchy())
+
+        self.assertEqual(player.calcpoints(), 7)
+
+        # add two garden. This is the 6th through 10th victory cards.
+        # so we add (10/10)*5=5 to the total
+        player.hand.append(Dominion.Gardens())
+        player.hand.append(Dominion.Gardens())
+        player.hand.append(Dominion.Gardens())
+        player.hand.append(Dominion.Gardens())
+        player.hand.append(Dominion.Gardens())
+
+        self.assertEqual(player.calcpoints(), 12)
 
     def test_draw(self):
         # set up
