@@ -187,7 +187,36 @@ class TestPlayer(TestCase):
     def test_draw(self):
         # set up
         self.setUp()
-        self.fail()
+
+        # get a player
+        player = self.players[0]
+
+        # store hand size
+        old_size = len(player.hand)
+
+        # draw a card
+        player.draw()
+
+        # check to see if we have another card in the hand
+        self.assertEqual(len(player.hand), old_size+1)
+
+        d_size = len(player.deck)
+        # discard the entire deck
+        player.discard = player.deck[:]
+        player.deck = []
+
+        # ensure the deck is empty
+        self.assertEqual(len(player.deck), 0)
+
+        # shuffles discard into deck
+        player.draw()
+
+        # check to see we drew card and deck was restored
+        self.assertEqual(len(player.hand), old_size+2)
+        self.assertEqual(len(player.deck), d_size-1)
+
+
+        
 
     def test_cardsummary(self):
         # set up
