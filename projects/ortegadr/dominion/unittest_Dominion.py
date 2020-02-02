@@ -68,6 +68,7 @@ class TestAction_card(TestCase):
         lab_card.use(player, self.trash)
         # check to see if the lab card is now in their played hands, at the end of the list
         self.assertEqual(lab_card, player.played[-1])
+        self.assertNotIn(lab_card, player.hand)
 
     def test_augment(self):
         self.setUp()
