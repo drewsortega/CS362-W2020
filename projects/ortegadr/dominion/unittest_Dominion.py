@@ -110,16 +110,61 @@ class TestAction_card(TestCase):
 
 
 class TestPlayer(TestCase):
+    def setUp(self):
+        # Get player names
+        self.player_names = ["Aryn", *"Bob", "*Courtney"]
+
+        # ignore the correct way to get the number of
+        # curse and victory cards
+        (self.nV, self.nC) = testUtility.get_n_cards(self.player_names)
+
+        self.box = testUtility.get_boxes(self.nV)
+
+        # generate supply order
+        self.supply_order = testUtility.get_supply_order()
+
+        # Pick 10 cards from box to be in the supply.
+        self.supply = testUtility.pick_supply(self.box, [])
+
+        # since supply is a list -> therefore a reference, does not
+        # need to return anything!
+        testUtility.add_base_cards(
+            self.supply, self.player_names, self.nV, self.nC)
+
+        # initialize the trash
+        self.trash = []
+
+        # initialize players and hands
+        self.players = testUtility.init_players(self.player_names)
+
     def test_action_balance(self):
-        self.fail()
+        # set up
+        self.setUp()
+        player = self.players[0]
+        print(len(player.stack()))
+        # remove two cards from the hand
+        player.hand = player.hand[2:]
+
+        # add two real action cards
+        player.hand.append(Dominion.Laboratory())
+        player.hand.append(Dominion.Village())
+
+        # hand-calculated value, compared
+        self.assertEqual(7, player.action_balance())
 
     def test_calcpoints(self):
+        # set up
+        self.setUp()
         self.fail()
 
     def test_draw(self):
+        # set up
+        self.setUp()
         self.fail()
 
     def test_cardsummary(self):
+        # set up
+        self.setUp()
         self.fail()
 
 
