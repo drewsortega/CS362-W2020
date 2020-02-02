@@ -250,4 +250,62 @@ class TestPlayer(TestCase):
 
 class TestGame(TestCase):
     def test_gameover(self):
-        self.fail()
+        # Get player names
+        self.player_names = ["Aryn", *"Bob", "*Courtney"]
+
+        # ignore the correct way to get the number of
+        # curse and victory cards
+        (self.nV, self.nC) = testUtility.get_n_cards(self.player_names)
+
+        self.box = testUtility.get_boxes(self.nV)
+
+        # generate supply order
+        self.supply_order = testUtility.get_supply_order()
+
+        #Pick 10 cards from box to be in the supply.
+        self.supply = testUtility.pick_supply(self.box, [
+            "Cellar",
+            "Market",
+            "Militia",
+            "Mine",
+            "Moat",
+            "Remodel",
+            "Smithy",
+            "Village",
+            "Woodcutter",
+            "Workshop"
+            ])
+
+        # since supply is a list -> therefore a reference, does not
+        # need to return anything!
+        testUtility.add_base_cards(
+            self.supply, self.player_names, self.nV, self.nC)
+
+        # initialize the trash
+        self.trash = []
+
+        # initialize players and hands
+        self.players = testUtility.init_players(self.player_names)
+
+        # game should not be over since full provinces
+        self.assertFalse(Dominion.gameover(self.supply))
+
+        # clear all provinces as could eventually happen in game
+        self.supply["Province"]=[]
+
+        self.assertTrue(Dominion.gameover(self.supply))
+
+        # add back the provinces so we test on something else
+
+        self.supply["Province"]=[Dominion.Province()]
+        self.assertFalse(Dominion.gameover(self.supply))
+        
+        # 1 "out", so not game over
+        self.supply["Cellar"]=[]
+        self.assertFalse(Dominion.gameover(self.supply))
+        # 2 "out", so not game over
+        self.supply["Market"]=[]
+        self.assertFalse(Dominion.gameover(self.supply))
+        # 3 "out", so must be game over
+        self.supply["Milita"]=[]
+        self.assertTrue(Dominion.gameover(self.supply))
