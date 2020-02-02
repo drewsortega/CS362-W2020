@@ -142,7 +142,7 @@ class TestPlayer(TestCase):
         # set up
         self.setUp()
         player = self.players[0]
-        print(len(player.stack()))
+
         # since there are no possible action cards, the total should be zero
         self.assertEqual(0, player.action_balance())
         # remove two cards from the hand
@@ -194,12 +194,19 @@ class TestPlayer(TestCase):
 
         # store hand size
         old_size = len(player.hand)
+        od_size = len(player.deck)
 
+        # get a reference of the first drawn card
+        c1 = player.deck[0]
         # draw a card
         player.draw()
 
+        # check to see the top of the deck is now in player's hand
+        self.assertIn(c1, player.hand)
         # check to see if we have another card in the hand
         self.assertEqual(len(player.hand), old_size+1)
+        # check to see if we have one less card in the deck
+        self.assertEqual(len(player.deck), od_size-1)
 
         d_size = len(player.deck)
         # discard the entire deck
@@ -208,7 +215,6 @@ class TestPlayer(TestCase):
 
         # ensure the deck is empty
         self.assertEqual(len(player.deck), 0)
-
         # shuffles discard into deck
         player.draw()
 
